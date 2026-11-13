@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ร้าน _kawkaijiaw | ข้าวไข่เจียว & แคร็กเกอร์วิปครีม</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #FFFDF9;
+      --yellow-main: #FFD13B;
+      --yellow-soft: #FFF8E1;
+      --pink-main: #FF5D8F;
+      --pink-soft: #FFF0F5;
+      --dark-navy: #141726;
+      --text-dark: #1E2022;
+      --text-gray: #6C757D;
+      --card-radius: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kanit', sans-serif; }
+    body { background-color: var(--bg-page); color: var(--text-dark); padding-bottom: 100px; }
+    .app-wrapper { max-width: 480px; margin: 0 auto; padding: 16px; }
+
+    .hero-banner {
+      background: linear-gradient(120deg, #FFD13B 0%, #FFE47A 55%, #FFD6E0 100%);
+      border-radius: 26px; padding: 18px 16px; display: flex; align-items: center;
+      justify-content: space-between; gap: 12px; box-shadow: 0 8px 20px rgba(255, 209, 59, 0.25); margin-bottom: 14px;
+    }
+    .hero-icon {
+      background: white; width: 48px; height: 48px; border-radius: 16px; display: flex;
+      align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .hero-text { flex: 1; }
+    .shop-tag {
+      display: inline-block; background: rgba(255, 255, 255, 0.75); color: #B45309;
+      font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-bottom: 3px;
+    }
+    .hero-text h1 { font-size: 1.05rem; font-weight: 700; color: #1F2937; line-height: 1.25; }
+    .hero-text p { font-size: 0.78rem; color: #4B5563; margin-top: 2px; }
+    .hero-cart-icon {
+      background: white; border: none; width: 44px; height: 44px; border-radius: 15px;
+      font-size: 20px; cursor: pointer; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .notice-card {
+      background: white; border: 1px solid #F3F4F6; border-radius: 20px; padding: 12px 14px;
+      display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .notice-icon {
+      background: #FFF8E1; width: 38px; height: 38px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .notice-card p { font-size: 0.8rem; color: #4B5563; line-height: 1.4; }
+    .disclaimer-top { text-align: right; font-size: 0.7rem; color: #9CA3AF; margin: 8px 4px 14px 0; }
+
+    .menu-section { margin-bottom: 24px; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .section-header.space-between { justify-content: space-between; }
+    .title-group { display: flex; align-items: center; gap: 10px; }
+    .bar-indicator { width: 6px; height: 24px; border-radius: 6px; }
+    .yellow-bar { background-color: var(--yellow-main); }
+    .pink-bar { background-color: var(--pink-main); }
+    .section-header h2 { font-size: 1.15rem; font-weight: 700; }
+    .limited-pill { background: #FFE4EC; color: #E11D48; font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+
+    .cards-container { display: flex; flex-direction: column; gap: 18px; }
+    .food-card { background: white; border-radius: var(--card-radius); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.05); border: 1px solid #F3F4F6; }
+    .card-image-box { position: relative; height: 190px; background: var(--yellow-soft); }
+    .card-image-box.pink-bg { background: var(--pink-soft); }
+    .card-image-box img { width: 100%; height: 100%; object-fit: cover; }
+
+    .price-pill-top {
+      position: absolute; top: 14px; right: 14px; background: #EAB308; color: white;
+      font-weight: 600; font-size: 0.85rem; padding: 5px 14px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+    .price-pill-bottom {
+      position: absolute; bottom: 14px; right: 14px; background: white; color: #E11D48;
+      font-weight: 700; font-size: 0.85rem; padding: 5px 14px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .limited-badge-top {
+      position: absolute; top: 14px; left: 14px; background: #FF4D79; color: white;
+      font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; box-shadow: 0 4px 10px rgba(255, 77, 121, 0.3);
+    }
+
+    .card-body { padding: 18px; }
+    .card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
+    .card-desc { font-size: 0.82rem; color: var(--text-gray); line-height: 1.45; margin-bottom: 14px; }
+    .card-desc .highlight-red { color: #E11D48; font-weight: 600; }
+
+    .topping-section-label { font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
+    .topping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .topping-chip {
+      display: flex; align-items: center; gap: 6px; background: #F9FAFB; border: 1.5px solid #E5E7EB;
+      padding: 8px 10px; border-radius: 14px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s;
+    }
+    .topping-chip input { accent-color: #EAB308; width: 15px; height: 15px; }
+    .topping-chip.pink-check input { accent-color: #FF4D79; }
+    .topping-chip:has(input:checked) { background: #FFFBEB; border-color: #F59E0B; font-weight: 500; }
+    .topping-chip.pink-check:has(input:checked) { background: #FFF1F2; border-color: #FF4D79; }
+
+    .card-action-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px dashed #F3F4F6; gap: 10px; }
+    .qty-box { display: flex; align-items: center; gap: 10px; background: #F9FAFB; padding: 4px 8px; border-radius: 20px; border: 1px solid #E5E7EB; }
+    .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: none; background: white; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.06); }
+    .qty-btn.plus-yellow { background: var(--yellow-main); color: #1F2937; }
+    .qty-btn.plus-pink { background: var(--pink-main); color: white; }
+    .qty-num { font-weight: 600; font-size: 0.95rem; min-width: 16px; text-align: center; }
+
+    .add-to-cart-btn {
+      flex: 1; background: var(--yellow-main); color: #1F2937; border: none; padding: 10px 14px;
+      border-radius: 16px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: transform 0.1s;
+    }
+    .add-to-cart-btn.pink-btn { background: var(--pink-main); color: white; }
+    .add-to-cart-btn:active { transform: scale(0.96); }
+    .add-to-cart-btn:disabled { background: #D1D5DB; color: #6B7280; cursor: not-allowed; }
+
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px); padding: 12px 20px; display: flex; justify-content: space-between;
+      align-items: center; max-width: 480px; margin: 0 auto; border-top-left-radius: 24px;
+      border-top-right-radius: 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 90;
+    }
+    .bottom-left { display: flex; align-items: center; gap: 12px; }
+    .yellow-circle-badge {
+      background: var(--yellow-main); color: var(--text-dark); width: 42px; height: 42px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;
+    }
+    .bottom-price-info { display: flex; flex-direction: column; }
+    .bottom-price-info span { font-size: 0.72rem; color: var(--text-gray); }
+    .bottom-price-info strong { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); }
+    .dark-pill-btn { background: var(--dark-navy); color: white; border: none; padding: 12px 20px; border-radius: 24px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-content {
+      background: white; width: 100%; max-width: 420px; border-radius: 28px; padding: 22px;
+      max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.25s ease-out;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .close-btn { font-size: 26px; color: #9CA3AF; cursor: pointer; line-height: 1; }
+    .cart-items-list { max-height: 240px; overflow-y: auto; margin-bottom: 14px; }
+    .cart-row { display: flex; justify-content: space-between; align-items: center; background: #F9FAFB; padding: 12px; border-radius: 16px; margin-bottom: 8px; }
+    .cart-row-detail h4 { font-size: 0.92rem; }
+    .cart-row-detail p { font-size: 0.78rem; color: var(--text-gray); }
+    .del-btn { background: #FEE2E2; color: #EF4444; border: none; padding: 6px 10px; border-radius: 10px; font-size: 0.78rem; cursor: pointer; }
+
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 2px dashed #E5E7EB; font-size: 1.05rem; }
+    .highlight-price { color: #D97706; font-size: 1.25rem; }
+    .input-group input { width: 100%; padding: 11px 14px; border: 1.5px solid #E5E7EB; border-radius: 14px; margin-bottom: 10px; font-size: 0.88rem; }
+    .modal-btn-group { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+    .btn-light { background: #F3F4F6; color: #374151; border: none; padding: 12px; border-radius: 16px; font-weight: 600; cursor: pointer; }
+    .btn-confirm { background: var(--dark-navy); color: white; border: none; padding: 12px; border-radius: 16px; font-weight: 600; cursor: pointer; }
+
+    .text-center { text-align: center; }
+    .success-badge { display: inline-block; background: #FEF3C7; color: #B45309; font-weight: 600; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    .sub-qr { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; }
+    .qr-container { background: #F9FAFB; padding: 14px; border-radius: 20px; margin-bottom: 14px; }
+    .qr-image { width: 190px; height: 190px; object-fit: contain; border-radius: 12px; background: white; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .pay-tag { margin-top: 8px; font-size: 1.1rem; font-weight: 700; color: #E11D48; }
+    .receipt-box { text-align: left; margin-bottom: 12px; }
+    .receipt-box label { font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px; }
+    .receipt-box textarea { width: 100%; padding: 10px; border-radius: 14px; border: 1px solid #E5E7EB; background: #F9FAFB; font-size: 0.8rem; resize: none; }
+    .ig-action-btn {
+      width: 100%; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white; border: none; padding: 14px; border-radius: 18px; font-size: 0.95rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 15px rgba(220, 39, 67, 0.25);
+    }
+    .tiny-hint { font-size: 0.72rem; color: #9CA3AF; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <header class="hero-banner">
+      <div class="hero-icon">🍳</div>
+      <div class="hero-text">
+        <span class="shop-tag">@_kawkaijiaw</span>
+        <h1>ข้าวไข่เจียว & แคร็กเกอร์วิปครีม</h1>
+        <p>ทำสดใหม่ทุกกล่อง อร่อยคุ้มราคา! 🍓✨</p>
+      </div>
+      <button class="hero-cart-icon" onclick="openCart()">🧺</button>
+    </header>
+
+    <div class="notice-card">
+      <div class="notice-icon">📢</div>
+      <p>เลือกเมนูและท็อปปิ้งที่ชอบ กด <strong>"เพิ่มลงตะกร้า"</strong> แล้วกดสรุปบิลส่งให้แม่ค้าทาง IG ได้เลยค่ะ</p>
+    </div>
+
+    <p class="disclaimer-top">*รูปภาพใช้เพื่อประกอบการโฆษณาเท่านั้น</p>
+
+    <section class="menu-section">
+      <div class="section-header">
+        <span class="bar-indicator yellow-bar"></span>
+        <h2>🍳 เมนูข้าวไข่เจียวร้อนๆ</h2>
+      </div>
+      <div id="omelet-list" class="cards-container"></div>
+    </section>
+
+    <section class="menu-section">
+      <div class="section-header space-between">
+        <div class="title-group">
+          <span class="bar-indicator pink-bar"></span>
+          <h2>🍓 เมนูของหวานสุดฟิน</h2>
+        </div>
+        <span class="limited-pill">🔥 ขายจำนวนจำกัด!</span>
+      </div>
+      <div id="dessert-list" class="cards-container"></div>
+    </section>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="bottom-left">
+      <div id="bottom-badge" class="yellow-circle-badge">0</div>
+      <div class="bottom-price-info">
+        <span>ยอดรวมทั้งหมด</span>
+        <strong id="bottom-total-price">0 บาท</strong>
+      </div>
+    </div>
+    <button class="dark-pill-btn" onclick="openCart()">ดูตะกร้า / สั่งซื้อ &rarr;</button>
+  </div>
+
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🧺 ตะกร้าของฉัน</h2>
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+      </div>
+      <div id="cart-items" class="cart-items-list"></div>
+      <div class="cart-footer">
+        <div class="summary-row">
+          <span>ยอดรวมทั้งหมด</span>
+          <strong id="cart-modal-total" class="highlight-price">0 บาท</strong>
+        </div>
+        <div class="input-group">
+          <input type="text" id="cus-name" placeholder="ชื่อเล่น / ห้องเรียน / จุดนัดรับ *" required>
+          <input type="text" id="cus-note" placeholder="หมายเหตุเพิ่มเติม (เช่น ไม่ใส่พริก, ซอสเยอะๆ)">
+        </div>
+        <div class="modal-btn-group">
+          <button class="btn-light" onclick="closeCart()">+ เลือกซื้อเพิ่ม</button>
+          <button class="btn-confirm" onclick="confirmOrder()">ยืนยันคำสั่งซื้อ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="payment-modal" class="modal">
+    <div class="modal-content text-center">
+      <span class="close-btn" onclick="closePayment()">&times;</span>
+      <div class="success-badge">✨ สั่งซื้อสำเร็จ! ✨</div>
+      <h3>สแกน QR Code เพื่อชำระเงิน</h3>
+      <p class="sub-qr">ร้าน <strong>@_kawkaijiaw</strong></p>
+
+      <div class="qr-container">
+        <img src="https://i.ibb.co/PGQfd4NV/004999237122055-20261110-163116.jpg" alt="QR Code ชำระเงิน" class="qr-image">
+        <div class="pay-tag">ยอดโอน: <span id="final-pay-text">0</span> บาท</div>
+      </div>
+
+      <div class="receipt-box">
+        <label>📋 รายการสั่งซื้อ (คัดลอกส่งในแชท IG):</label>
+        <textarea id="order-receipt-text" readonly rows="5"></textarea>
+      </div>
+
+      <button class="ig-action-btn" onclick="copyAndGoIG()">📲 คัดลอกบิล & ทักแชท IG @_kawkaijiaw</button>
+      <p class="tiny-hint">*ระบบจะคัดลอกข้อความให้อัตโนมัติ กดวาง (Paste) ในแชท IG พร้อมแนบสลิปได้เลยค่ะ</p>
+    </div>
+  </div>
+
+  <script>
+    const SHOP_IG = "_kawkaijiaw";
+    const products = [
+      {
+        id: 1, category: "omelet", name: "ข้าวไข่เจียวธรรมดา", basePrice: 20, priceLabel: "20 บาท",
+        desc: "ไข่เจียวฟูนุ่ม ทอดใหม่ร้อนๆ เสิร์ฟพร้อมข้าวสวยหอมนุ่ม",
+        img: "https://i.ibb.co/20CpH8vz/IMG-a2c334bd-ac6a-40c8-b018-15e3c32aecd3.jpg",
+        toppings: [], stock: 99
+      },
+      {
+        id: 2, category: "omelet", name: "ข้าวไข่เจียวทรงเครื่อง", basePrice: 25, priceLabel: "เริ่มต้น 25 บาท",
+        desc: "เลือกใส่เครื่องแน่นๆ ได้ตามใจชอบ (เพิ่มทุกๆ 3 อย่าง +5 บาท)",
+        img: "https://i.ibb.co/20CpH8vz/IMG-a2c334bd-ac6a-40c8-b018-15e3c32aecd3.jpg",
+        toppings: ["หัวหอม", "ต้นหอม", "แครอท", "ไก่สับ", "มะเขือเทศ", "พริก", "หมูสับ", "ไส้กรอก", "โบโลน่า", "ปูอัด", "ไก่ฉีก"],
+        stock: 99
+      },
+      {
+        id: 3, category: "dessert", name: "แคร็กเกอร์วิปครีม", basePrice: 15, priceLabel: "เริ่มต้น 15 บาท",
+        desc: 'แคร็กเกอร์กรุบกรอบ ท็อปด้วยวิปครีมนุ่มละมุน หวานกำลังดี <span class="highlight-red">(มีจำนวนจำกัดต่อวัน)</span>',
+        img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80",
+        toppings: ["ผงโอวัลติน", "โอริโอ้", "เยลลี่", "เรนโบว์"],
+        stock: 10
+      }
+    ];
+
+    let cardQuantities = { 1: 1, 2: 1, 3: 1 };
+    let cart = [];
+
+    function renderMenus() {
+      const omeletContainer = document.getElementById("omelet-list");
+      const dessertContainer = document.getElementById("dessert-list");
+      omeletContainer.innerHTML = "";
+      dessertContainer.innerHTML = "";
+
+      products.forEach(item => {
+        const isDessert = item.category === "dessert";
+        const isOutOfStock = item.stock <= 0;
+
+        let toppingsHTML = "";
+        if (item.toppings.length > 0) {
+          const ruleText = isDessert ? "เลือกใส่ขนมเพิ่ม (อย่างละ +5 บาท)" : "เลือกใส่เครื่องเพิ่ม (ทุกๆ 3 อย่าง +5 บาท)";
+          toppingsHTML = `
+            <span class="topping-section-label">${ruleText}</span>
+            <div class="topping-grid">
+              ${item.toppings.map(t => `
+                <label class="topping-chip ${isDessert ? 'pink-check' : ''}">
+                  <input type="checkbox" name="top-${item.id}" value="${t}" onchange="updateCardPrice(${item.id})">
+                  <span>${t}</span>
+                </label>
+              `).join("")}
+            </div>
+          `;
+        }
+
+        const cardHTML = `
+          <div class="food-card">
+            <div class="card-image-box ${isDessert ? 'pink-bg' : ''}">
+              <img src="${item.img}" alt="${item.name}">
+              ${isDessert 
+                ? `<span class="limited-badge-top">🔥 ขายจำนวนจำกัด! (เหลือ ${item.stock})</span><span class="price-pill-bottom">${item.priceLabel}</span>`
+                : `<span class="price-pill-top">${item.priceLabel}</span>`
+              }
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">${item.name}</h3>
+              <p class="card-desc">${item.desc}</p>
+              ${toppingsHTML}
+              <div class="card-action-row">
+                <div class="qty-box">
+                  <button class="qty-btn" onclick="changeCardQty(${item.id}, -1)">-</button>
+                  <span id="qty-display-${item.id}" class="qty-num">${cardQuantities[item.id]}</span>
+                  <button class="qty-btn ${isDessert ? 'plus-pink' : 'plus-yellow'}" onclick="changeCardQty(${item.id}, 1)">+</button>
+                </div>
+                <button id="add-btn-${item.id}" class="add-to-cart-btn ${isDessert ? 'pink-btn' : ''}" 
+                  onclick="addToCart(${item.id})" ${isOutOfStock ? 'disabled' : ''}>
+                  ${isOutOfStock ? 'สินค้าหมดแล้ว' : `เพิ่มลงตะกร้า • ${item.basePrice * cardQuantities[item.id]} ฿`}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (isDessert) dessertContainer.innerHTML += cardHTML;
+        else omeletContainer.innerHTML += cardHTML;
+      });
+    }
+
+    function calculateUnitPrice(item) {
+      const checked = document.querySelectorAll(`input[name="top-${item.id}"]:checked`);
+      let unitPrice = item.basePrice;
+      if (item.id === 2) unitPrice += Math.floor(checked.length / 3) * 5;
+      else if (item.id === 3) unitPrice += checked.length * 5;
+      return unitPrice;
+    }
+
+    function updateCardPrice(id) {
+      const item = products.find(p => p.id === id);
+      if (item.stock <= 0) return;
+      const unitPrice = calculateUnitPrice(item);
+      const total = unitPrice * cardQuantities[id];
+      document.getElementById(`add-btn-${id}`).innerText = `เพิ่มลงตะกร้า • ${total} ฿`;
+    }
+
+    function changeCardQty(id, delta) {
+      const item = products.find(p => p.id === id);
+      const nextQty = cardQuantities[id] + delta;
+      if (nextQty >= 1 && nextQty <= item.stock) {
+        cardQuantities[id] = nextQty;
+        document.getElementById(`qty-display-${id}`).innerText = nextQty;
+        updateCardPrice(id);
+      }
+    }
+
+    function addToCart(id) {
+      const item = products.find(p => p.id === id);
+      const qty = cardQuantities[id];
+      if (item.stock < qty) { alert("ขออภัย สินค้าคงเหลือไม่พอค่ะ"); return; }
+
+      const checkedBoxes = document.querySelectorAll(`input[name="top-${id}"]:checked`);
+      const selectedToppings = Array.from(checkedBoxes).map(cb => cb.value);
+      const unitPrice = calculateUnitPrice(item);
+
+      cart.push({ menuId: item.id, name: item.name, toppings: selectedToppings, qty: qty, totalPrice: unitPrice * qty });
+      item.stock -= qty;
+      cardQuantities[id] = 1;
+      renderMenus();
+      updateBottomBar();
+      openCart();
+    }
+
+    function updateBottomBar() {
+      const totalQty = cart.reduce((sum, c) => sum + c.qty, 0);
+      const totalPrice = cart.reduce((sum, c) => sum + c.totalPrice, 0);
+      document.getElementById("bottom-badge").innerText = totalQty;
+      document.getElementById("bottom-total-price").innerText = `${totalPrice} บาท`;
+    }
+
+    function openCart() {
+      const listDiv = document.getElementById("cart-items");
+      listDiv.innerHTML = "";
+      if (cart.length === 0) {
+        listDiv.innerHTML = `<p style="text-align:center; color:#9CA3AF; padding:24px 0;">ยังไม่มีรายการในตะกร้าค่ะ 🍳</p>`;
+        document.getElementById("cart-modal-total").innerText = "0 บาท";
+      } else {
+        let grandTotal = 0;
+        cart.forEach((c, idx) => {
+          grandTotal += c.totalPrice;
+          const topText = c.toppings.length > 0 ? `+ ${c.toppings.join(", ")}` : "ไม่ใส่ท็อปปิ้งเพิ่ม";
+          listDiv.innerHTML += `
+            <div class="cart-row">
+              <div class="cart-row-detail">
+                <h4>${c.name} (x${c.qty})</h4>
+                <p>${topText}</p>
+                <strong style="color:#D97706; font-size:0.88rem;">${c.totalPrice} บาท</strong>
+              </div>
+              <button class="del-btn" onclick="removeCartItem(${idx})">ลบออก</button>
+            </div>
+          `;
+        });
+        document.getElementById("cart-modal-total").innerText = `${grandTotal} บาท`;
+      }
+      document.getElementById("cart-modal").style.display = "flex";
+    }
+
+    function closeCart() { document.getElementById("cart-modal").style.display = "none"; }
+
+    function removeCartItem(index) {
+      const removed = cart[index];
+      const product = products.find(p => p.id === removed.menuId);
+      if (product) product.stock += removed.qty;
+      cart.splice(index, 1);
+      renderMenus();
+      updateBottomBar();
+      openCart();
+    }
+
+    function confirmOrder() {
+      if (cart.length === 0) { alert("กรุณาเลือกเมนูอาหารก่อนยืนยันคำสั่งซื้อนะคะ"); return; }
+      const cusName = document.getElementById("cus-name").value.trim();
+      const cusNote = document.getElementById("cus-note").value.trim();
+      if (!cusName) { alert("กรุณากรอกชื่อเล่น หรือ จุดนัดรับสินค้าด้วยนะคะ"); return; }
+
+      let grandTotal = 0;
+      let billText = `🍳 ออเดอร์ร้าน @_kawkaijiaw\n👤 ลูกค้า: ${cusName}\n------------------------\n`;
+      cart.forEach((c, i) => {
+        grandTotal += c.totalPrice;
+        const topStr = c.toppings.length > 0 ? ` [${c.toppings.join(", ")}]` : "";
+        billText += `${i + 1}. ${c.name}${topStr} x${c.qty} = ${c.totalPrice}฿\n`;
+      });
+      billText += `------------------------\n`;
+      if (cusNote) billText += `📝 หมายเหตุ: ${cusNote}\n`;
+      billText += `💰 ยอดโอนทั้งหมด: ${grandTotal} บาท`;
+
+      document.getElementById("final-pay-text").innerText = grandTotal;
+      document.getElementById("order-receipt-text").value = billText;
+      closeCart();
+      document.getElementById("payment-modal").style.display = "flex";
+    }
+
+    function closePayment() {
+      document.getElementById("payment-modal").style.display = "none";
+      cart = [];
+      updateBottomBar();
+    }
+
+    function copyAndGoIG() {
+      const receiptBox = document.getElementById("order-receipt-text");
+      receiptBox.select();
+      receiptBox.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(receiptBox.value);
+      alert("คัดลอกรายการสั่งซื้อเรียบร้อย! กดวาง (Paste) ในแชท IG @_kawkaijiaw พร้อมส่งสลิปได้เลยค่ะ");
+      window.open(`https://ig.me/m/${SHOP_IG}`, "_blank");
+    }
+
+    renderMenus();
+  </script>
+</body>
+</html>
