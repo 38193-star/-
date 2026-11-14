@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ร้าน _kawkaijiaw | ข้าวไข่เจียว & แคร็กเกอร์วิปครีม</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- โหลดไลบรารีสำหรับยิงพลุกระดาษ -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
@@ -104,51 +103,24 @@
     .card-desc { font-size: 0.82rem; color: var(--text-gray); line-height: 1.45; margin-bottom: 14px; }
     .card-desc .highlight-red { color: #E11D48; font-weight: 600; }
 
-    /* ลูกเล่นที่ 2: แถบวัดความคุ้มค่า (Value Meter) */
+    /* แถบวัดความคุ้มค่า */
     .value-meter-box {
-      background: #FFFBEB;
-      border: 1.5px solid #FDE68A;
-      border-radius: 16px;
-      padding: 10px 12px;
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
+      background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 16px;
+      padding: 10px 12px; margin-bottom: 12px; transition: all 0.3s ease;
     }
-    .value-meter-box.super-worth {
-      background: #ECFDF5;
-      border-color: #6EE7B7;
-    }
+    .value-meter-box.super-worth { background: #ECFDF5; border-color: #6EE7B7; }
     .meter-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #92400E;
-      margin-bottom: 6px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; font-weight: 600; color: #92400E; margin-bottom: 6px;
     }
-    .value-meter-box.super-worth .meter-header {
-      color: #065F46;
-    }
-    .meter-track {
-      width: 100%;
-      height: 8px;
-      background: #FEF3C7;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .value-meter-box.super-worth .meter-track {
-      background: #D1FAE5;
-    }
+    .value-meter-box.super-worth .meter-header { color: #065F46; }
+    .meter-track { width: 100%; height: 8px; background: #FEF3C7; border-radius: 10px; overflow: hidden; }
+    .value-meter-box.super-worth .meter-track { background: #D1FAE5; }
     .meter-fill {
-      height: 100%;
-      width: 15%;
-      background: linear-gradient(90deg, #F59E0B, #FBBF24);
-      border-radius: 10px;
-      transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      height: 100%; width: 15%; background: linear-gradient(90deg, #F59E0B, #FBBF24);
+      border-radius: 10px; transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .value-meter-box.super-worth .meter-fill {
-      background: linear-gradient(90deg, #10B981, #34D399);
-    }
+    .value-meter-box.super-worth .meter-fill { background: linear-gradient(90deg, #10B981, #34D399); }
 
     .topping-section-label { font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
     .topping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
@@ -221,91 +193,42 @@
     .btn-light { background: #F3F4F6; color: #374151; border: none; padding: 12px; border-radius: 16px; font-weight: 600; cursor: pointer; }
     .btn-confirm { background: var(--dark-navy); color: white; border: none; padding: 12px; border-radius: 16px; font-weight: 600; cursor: pointer; }
 
-    /* ลูกเล่นที่ 3: ใบเสร็จสไตล์คาเฟ่สุดน่ารัก */
+    /* ใบเสร็จสไตล์คาเฟ่ */
     .text-center { text-align: center; }
     .success-badge { display: inline-block; background: #FEF3C7; color: #B45309; font-weight: 600; font-size: 0.8rem; padding: 4px 14px; border-radius: 20px; margin-bottom: 8px; }
     
     .cafe-receipt {
-      position: relative;
-      background: #FFFDF7;
-      border: 1.5px solid #F3E8D2;
-      border-radius: 16px;
-      padding: 18px 16px;
-      margin: 12px 0;
-      box-shadow: 0 8px 20px rgba(180, 83, 9, 0.08);
-      text-align: left;
+      position: relative; background: #FFFDF7; border: 1.5px solid #F3E8D2; border-radius: 16px;
+      padding: 18px 16px; margin: 12px 0; box-shadow: 0 8px 20px rgba(180, 83, 9, 0.08); text-align: left;
     }
-    /* รอยหยักด้านบนและล่างของใบเสร็จ */
     .cafe-receipt::before, .cafe-receipt::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 8px;
-      background-size: 16px 8px;
+      content: ""; position: absolute; left: 0; right: 0; height: 8px; background-size: 16px 8px;
     }
-    .cafe-receipt::before {
-      top: -4px;
-      background-image: radial-gradient(circle at 8px 0, transparent 5px, #FFFDF7 5.5px);
-    }
-    .cafe-receipt::after {
-      bottom: -4px;
-      background-image: radial-gradient(circle at 8px 8px, transparent 5px, #FFFDF7 5.5px);
-    }
+    .cafe-receipt::before { top: -4px; background-image: radial-gradient(circle at 8px 0, transparent 5px, #FFFDF7 5.5px); }
+    .cafe-receipt::after { bottom: -4px; background-image: radial-gradient(circle at 8px 8px, transparent 5px, #FFFDF7 5.5px); }
 
-    .receipt-header {
-      text-align: center;
-      border-bottom: 1.5px dashed #E5D5B7;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-    }
-    .receipt-shop-name {
-      font-weight: 700;
-      font-size: 1rem;
-      color: #92400E;
-      letter-spacing: 0.5px;
-    }
-    .receipt-meta {
-      font-size: 0.78rem;
-      color: #78350F;
-      margin-top: 2px;
-    }
-    .receipt-items-body {
-      font-size: 0.82rem;
-      color: #374151;
-      line-height: 1.6;
-      border-bottom: 1.5px dashed #E5D5B7;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-    }
-    .receipt-line {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-    .receipt-total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #E11D48;
-    }
+    .receipt-header { text-align: center; border-bottom: 1.5px dashed #E5D5B7; padding-bottom: 10px; margin-bottom: 10px; }
+    .receipt-shop-name { font-weight: 700; font-size: 1rem; color: #92400E; letter-spacing: 0.5px; }
+    .receipt-meta { font-size: 0.78rem; color: #78350F; margin-top: 2px; }
+    .receipt-items-body { font-size: 0.82rem; color: #374151; line-height: 1.6; border-bottom: 1.5px dashed #E5D5B7; padding-bottom: 10px; margin-bottom: 10px; }
+    .receipt-line { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .receipt-total-row { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1rem; color: #E11D48; }
     .cute-stamp {
-      display: inline-block;
-      border: 2px solid #F59E0B;
-      color: #D97706;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 8px;
-      transform: rotate(-6deg);
-      margin-top: 8px;
+      display: inline-block; border: 2px solid #F59E0B; color: #D97706; font-size: 0.7rem;
+      font-weight: 700; padding: 2px 8px; border-radius: 8px; transform: rotate(-6deg); margin-top: 8px;
     }
 
-    .qr-container { background: #F9FAFB; padding: 12px; border-radius: 20px; margin-bottom: 12px; }
-    .qr-image { width: 170px; height: 170px; object-fit: contain; border-radius: 12px; background: white; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .qr-container { background: #F9FAFB; padding: 12px; border-radius: 20px; margin-bottom: 10px; }
+    .qr-image { width: 165px; height: 165px; object-fit: contain; border-radius: 12px; background: white; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
 
+    /* กล่องแจ้งเตือนส่งสลิปเพื่อเริ่มนับคิว */
+    .slip-confirm-box {
+      background: #ECFDF5; border: 1.5px solid #6EE7B7; border-radius: 16px;
+      padding: 10px 12px; margin-bottom: 10px; text-align: left; font-size: 0.78rem; color: #065F46; line-height: 1.45;
+    }
+    .slip-confirm-box strong { display: block; color: #047857; font-size: 0.82rem; margin-bottom: 2px; }
+
+    /* กล่องแจ้งเตือนสำหรับคนไม่สะดวกโอน */
     .unpaid-warning-box {
       background: #FFF1F2; border: 1.5px dashed #FDA4AF; border-radius: 16px;
       padding: 10px 12px; margin-bottom: 12px; text-align: left; font-size: 0.76rem; color: #881337; line-height: 1.45;
@@ -398,7 +321,7 @@
     </div>
   </div>
 
-  <!-- หน้าใบเสร็จสไตล์คาเฟ่ + QR Code + พลุกระดาษ -->
+  <!-- หน้าใบเสร็จสไตล์คาเฟ่ + QR Code + แจ้งเตือนส่งสลิป -->
   <div id="payment-modal" class="modal">
     <div class="modal-content text-center">
       <span class="close-btn" onclick="closePayment()">&times;</span>
@@ -410,9 +333,7 @@
           <div class="receipt-shop-name">🍳 @_KAWKAIJIAW CAFE 🍓</div>
           <div class="receipt-meta" id="receipt-customer-meta">ลูกค้า: - | นัดรับ: -</div>
         </div>
-        <div class="receipt-items-body" id="receipt-items-display">
-          <!-- รายการอาหารจะมาแสดงตรงนี้ -->
-        </div>
+        <div class="receipt-items-body" id="receipt-items-display"></div>
         <div class="receipt-total-row">
           <span>ยอดชำระทั้งหมด</span>
           <span id="final-pay-text">0 บาท</span>
@@ -424,15 +345,20 @@
 
       <div class="qr-container">
         <img src="https://i.ibb.co/PGQfd4NV/004999237122055-20261110-163116.jpg" alt="QR Code ชำระเงิน" class="qr-image">
-        <p style="font-size: 0.78rem; color: #6B7280; margin-top: 6px;">สแกน QR Code ด้านบนเพื่อโอนเงินได้เลยค่ะ</p>
       </div>
 
+      <!-- แจ้งเตือนโอนแล้วส่งสลิปเพื่อเริ่มนับคิว -->
+      <div class="slip-confirm-box">
+        <strong>✅ โอนแล้วอย่าลืมส่งสลิปมาในแชท IG นะคะ!</strong>
+        รบกวนส่งสลิปการโอนเงินในแชท <u>เพื่อยืนยันออเดอร์</u> แม่ค้าจะได้เริ่มนับคิวทำให้ทันทีค่ะ 🍳✨
+      </div>
+
+      <!-- แจ้งเตือนคนไม่สะดวกโอน -->
       <div class="unpaid-warning-box">
         <strong>⚠️ สำหรับคนที่ไม่สะดวกจ่ายโอน (จองแบบยังไม่จ่ายเงิน):</strong>
         หากต้องการจองแบบไม่จ่ายเงิน <u>ต้องทักส่วนตัวมาบอกแม่ค้า</u> ก่อนนะคะ โดยทางร้านจะไม่รับประกันว่าจะได้อาหารหากมารับช้าหรือเกินเวลาช่วงพักเที่ยง ทางร้านอาจจะนำอาหารนั้นขายไปก่อน หากโชคดีอาจจะยังมีออเดอร์เหลือค่ะ 🙏
       </div>
 
-      <!-- ซ่อน textarea ไว้สำหรับคัดลอกข้อความบิลส่ง IG -->
       <textarea id="order-receipt-text" style="position:absolute; left:-9999px;" readonly></textarea>
 
       <button class="ig-action-btn" onclick="copyAndGoIG()">📲 คัดลอกบิล & ทักแชท IG @_kawkaijiaw</button>
@@ -478,7 +404,6 @@
         const isDessert = item.category === "dessert";
         const isOutOfStock = item.stock <= 0;
 
-        // แถบวัดความคุ้มค่า เฉพาะเมนูข้าวไข่เจียวทรงเครื่อง (id: 2)
         let valueMeterHTML = "";
         if (item.id === 2) {
           valueMeterHTML = `
@@ -559,7 +484,6 @@
       return unitPrice;
     }
 
-    // อัปเดตราคา + อัปเดตแถบวัดความคุ้มค่า
     function updateCardPrice(id) {
       const item = products.find(p => p.id === id);
       if (item.stock <= 0) return;
@@ -567,7 +491,6 @@
       const checked = document.querySelectorAll(`input[name="top-${id}"]:checked`);
       const count = checked.length;
 
-      // อัปเดตแถบวัดความคุ้มค่าสำหรับเมนูข้าวไข่เจียวทรงเครื่อง
       if (id === 2) {
         const meterBox = document.getElementById("value-meter-box");
         const meterText = document.getElementById("meter-text");
@@ -673,13 +596,14 @@
       openCart();
     }
 
-    // ฟังก์ชันยิงพลุกระดาษพาสเทล
+    // ยิงพลุกระดาษให้อยู่ชั้นบนสุด (zIndex: 9999) ทะลุหน้าใบเสร็จ!
     function fireCuteConfetti() {
       if (typeof confetti === "function") {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 100,
+          spread: 80,
           origin: { y: 0.6 },
+          zIndex: 9999,
           colors: ['#FFD13B', '#FF5D8F', '#34D399', '#60A5FA', '#FBBF24']
         });
       }
@@ -699,7 +623,6 @@
       let grandTotal = 0;
       let billText = `🍳 ออเดอร์ร้าน @_kawkaijiaw\n👤 ชื่อ/ห้อง: ${cusName}\n⏰ นัดรับคาบ: ${cusPeriod}\n------------------------\n`;
       
-      // สร้างรายการแสดงในใบเสร็จสไตล์คาเฟ่
       const receiptItemsDiv = document.getElementById("receipt-items-display");
       receiptItemsDiv.innerHTML = "";
       document.getElementById("receipt-customer-meta").innerText = `ลูกค้า: ${cusName} | นัดรับ: ${cusPeriod}`;
@@ -722,7 +645,7 @@
         receiptItemsDiv.innerHTML += `<div style="font-size:0.75rem; color:#B45309; margin-top:4px;">📝 หมายเหตุ: ${cusNote}</div>`;
       }
 
-      billText += `------------------------\n💰 ยอดโอนทั้งหมด: ${grandTotal} บาท`;
+      billText += `------------------------\n💰 ยอดโอนทั้งหมด: ${grandTotal} บาท\n✅ (โอนแล้วส่งสลิปเพื่อเริ่มนับคิวออเดอร์ค่ะ)`;
 
       document.getElementById("final-pay-text").innerText = `${grandTotal} บาท`;
       document.getElementById("order-receipt-text").value = billText;
@@ -730,8 +653,8 @@
       closeCart();
       document.getElementById("payment-modal").style.display = "flex";
       
-      // ยิงพลุกระดาษฉลองตอนสั่งซื้อสำเร็จ!
-      fireCuteConfetti();
+      // ยิงพลุกระดาษฉลองทันที!
+      setTimeout(fireCuteConfetti, 150);
     }
 
     function closePayment() {
@@ -745,7 +668,7 @@
       receiptBox.select();
       receiptBox.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(receiptBox.value);
-      alert("คัดลอกใบเสร็จเรียบร้อย! กดวาง (Paste) ในแชท IG @_kawkaijiaw พร้อมแนบสลิป (หรือแจ้งจอง) ได้เลยค่ะ");
+      alert("คัดลอกใบเสร็จเรียบร้อย! กดวาง (Paste) ในแชท IG @_kawkaijiaw พร้อมส่งสลิปเพื่อเริ่มนับคิวได้เลยค่ะ");
       window.open(`https://ig.me/m/${SHOP_IG}`, "_blank");
     }
 
