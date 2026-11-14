@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ร้าน _kawkaijiaw | ข้าวไข่เจียว & แคร็กเกอร์วิปครีม</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- โหลดไลบรารีสำหรับยิงพลุกระดาษ -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg-page: #FFFDF9;
@@ -19,9 +21,16 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kanit', sans-serif; }
-    body { background-color: var(--bg-page); color: var(--text-dark); padding-bottom: 100px; }
+    body { 
+      background-color: var(--bg-page); 
+      background-image: radial-gradient(#FFE8A3 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--text-dark); 
+      padding-bottom: 105px; 
+    }
     .app-wrapper { max-width: 480px; margin: 0 auto; padding: 16px; }
 
+    /* Hero Banner */
     .hero-banner {
       background: linear-gradient(120deg, #FFD13B 0%, #FFE47A 55%, #FFD6E0 100%);
       border-radius: 26px; padding: 18px 16px; display: flex; align-items: center;
@@ -29,22 +38,29 @@
     }
     .hero-icon {
       background: white; width: 48px; height: 48px; border-radius: 16px; display: flex;
-      align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06); animation: floatWiggle 3s ease-in-out infinite;
+    }
+    @keyframes floatWiggle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(6deg); }
     }
     .hero-text { flex: 1; }
     .shop-tag {
-      display: inline-block; background: rgba(255, 255, 255, 0.75); color: #B45309;
-      font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-bottom: 3px;
+      display: inline-block; background: rgba(255, 255, 255, 0.85); color: #B45309;
+      font-size: 0.72rem; font-weight: 600; padding: 2px 10px; border-radius: 12px; margin-bottom: 3px;
     }
     .hero-text h1 { font-size: 1.05rem; font-weight: 700; color: #1F2937; line-height: 1.25; }
     .hero-text p { font-size: 0.78rem; color: #4B5563; margin-top: 2px; }
     .hero-cart-icon {
       background: white; border: none; width: 44px; height: 44px; border-radius: 15px;
       font-size: 20px; cursor: pointer; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      transition: transform 0.2s;
     }
+    .hero-cart-icon:active { transform: scale(0.9); }
 
     .notice-card {
-      background: white; border: 1px solid #F3F4F6; border-radius: 20px; padding: 12px 14px;
+      background: white; border: 1.5px solid #FEF3C7; border-radius: 20px; padding: 12px 14px;
       display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
     .notice-icon {
@@ -88,12 +104,59 @@
     .card-desc { font-size: 0.82rem; color: var(--text-gray); line-height: 1.45; margin-bottom: 14px; }
     .card-desc .highlight-red { color: #E11D48; font-weight: 600; }
 
+    /* ลูกเล่นที่ 2: แถบวัดความคุ้มค่า (Value Meter) */
+    .value-meter-box {
+      background: #FFFBEB;
+      border: 1.5px solid #FDE68A;
+      border-radius: 16px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+    .value-meter-box.super-worth {
+      background: #ECFDF5;
+      border-color: #6EE7B7;
+    }
+    .meter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #92400E;
+      margin-bottom: 6px;
+    }
+    .value-meter-box.super-worth .meter-header {
+      color: #065F46;
+    }
+    .meter-track {
+      width: 100%;
+      height: 8px;
+      background: #FEF3C7;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .value-meter-box.super-worth .meter-track {
+      background: #D1FAE5;
+    }
+    .meter-fill {
+      height: 100%;
+      width: 15%;
+      background: linear-gradient(90deg, #F59E0B, #FBBF24);
+      border-radius: 10px;
+      transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .value-meter-box.super-worth .meter-fill {
+      background: linear-gradient(90deg, #10B981, #34D399);
+    }
+
     .topping-section-label { font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
     .topping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
     .topping-chip {
       display: flex; align-items: center; gap: 6px; background: #F9FAFB; border: 1.5px solid #E5E7EB;
       padding: 8px 10px; border-radius: 14px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s;
     }
+    .topping-chip:active { transform: scale(0.95); }
     .topping-chip input { accent-color: #EAB308; width: 15px; height: 15px; }
     .topping-chip.pink-check input { accent-color: #FF4D79; }
     .topping-chip:has(input:checked) { background: #FFFBEB; border-color: #F59E0B; font-weight: 500; }
@@ -111,11 +174,11 @@
       border-radius: 16px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: transform 0.1s;
     }
     .add-to-cart-btn.pink-btn { background: var(--pink-main); color: white; }
-    .add-to-cart-btn:active { transform: scale(0.96); }
+    .add-to-cart-btn:active { transform: scale(0.95); }
     .add-to-cart-btn:disabled { background: #D1D5DB; color: #6B7280; cursor: not-allowed; }
 
     .bottom-bar {
-      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95);
+      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(8px); padding: 12px 20px; display: flex; justify-content: space-between;
       align-items: center; max-width: 480px; margin: 0 auto; border-top-left-radius: 24px;
       border-top-right-radius: 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 90;
@@ -130,15 +193,19 @@
     .bottom-price-info strong { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); }
     .dark-pill-btn { background: var(--dark-navy); color: white; border: none; padding: 12px 20px; border-radius: 24px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
 
+    /* Modal Styles */
     .modal {
-      display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+      display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 16px;
     }
     .modal-content {
       background: white; width: 100%; max-width: 420px; border-radius: 28px; padding: 22px;
-      max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.25s ease-out;
+      max-height: 92vh; overflow-y: auto; position: relative; animation: popSpring 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes popSpring {
+      0% { transform: scale(0.85) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .close-btn { font-size: 26px; color: #9CA3AF; cursor: pointer; line-height: 1; }
     .cart-items-list { max-height: 210px; overflow-y: auto; margin-bottom: 14px; }
@@ -154,39 +221,103 @@
     .btn-light { background: #F3F4F6; color: #374151; border: none; padding: 12px; border-radius: 16px; font-weight: 600; cursor: pointer; }
     .btn-confirm { background: var(--dark-navy); color: white; border: none; padding: 12px; border-radius: 16px; font-weight: 600; cursor: pointer; }
 
+    /* ลูกเล่นที่ 3: ใบเสร็จสไตล์คาเฟ่สุดน่ารัก */
     .text-center { text-align: center; }
-    .success-badge { display: inline-block; background: #FEF3C7; color: #B45309; font-weight: 600; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
-    .sub-qr { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; }
-    .qr-container { background: #F9FAFB; padding: 14px; border-radius: 20px; margin-bottom: 12px; }
-    .qr-image { width: 185px; height: 185px; object-fit: contain; border-radius: 12px; background: white; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-    .pay-tag { margin-top: 8px; font-size: 1.1rem; font-weight: 700; color: #E11D48; }
-
-    /* กล่องแจ้งเตือนสำหรับคนไม่สะดวกโอน */
-    .unpaid-warning-box {
-      background: #FFF1F2;
-      border: 1.5px dashed #FDA4AF;
+    .success-badge { display: inline-block; background: #FEF3C7; color: #B45309; font-weight: 600; font-size: 0.8rem; padding: 4px 14px; border-radius: 20px; margin-bottom: 8px; }
+    
+    .cafe-receipt {
+      position: relative;
+      background: #FFFDF7;
+      border: 1.5px solid #F3E8D2;
       border-radius: 16px;
-      padding: 12px;
-      margin-bottom: 12px;
+      padding: 18px 16px;
+      margin: 12px 0;
+      box-shadow: 0 8px 20px rgba(180, 83, 9, 0.08);
       text-align: left;
-      font-size: 0.78rem;
-      color: #881337;
-      line-height: 1.45;
     }
-    .unpaid-warning-box strong {
-      display: block;
-      color: #BE123C;
-      font-size: 0.82rem;
-      margin-bottom: 3px;
+    /* รอยหยักด้านบนและล่างของใบเสร็จ */
+    .cafe-receipt::before, .cafe-receipt::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background-size: 16px 8px;
+    }
+    .cafe-receipt::before {
+      top: -4px;
+      background-image: radial-gradient(circle at 8px 0, transparent 5px, #FFFDF7 5.5px);
+    }
+    .cafe-receipt::after {
+      bottom: -4px;
+      background-image: radial-gradient(circle at 8px 8px, transparent 5px, #FFFDF7 5.5px);
     }
 
-    .receipt-box { text-align: left; margin-bottom: 12px; }
-    .receipt-box label { font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px; }
-    .receipt-box textarea { width: 100%; padding: 10px; border-radius: 14px; border: 1px solid #E5E7EB; background: #F9FAFB; font-size: 0.8rem; resize: none; }
+    .receipt-header {
+      text-align: center;
+      border-bottom: 1.5px dashed #E5D5B7;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .receipt-shop-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #92400E;
+      letter-spacing: 0.5px;
+    }
+    .receipt-meta {
+      font-size: 0.78rem;
+      color: #78350F;
+      margin-top: 2px;
+    }
+    .receipt-items-body {
+      font-size: 0.82rem;
+      color: #374151;
+      line-height: 1.6;
+      border-bottom: 1.5px dashed #E5D5B7;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .receipt-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .receipt-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #E11D48;
+    }
+    .cute-stamp {
+      display: inline-block;
+      border: 2px solid #F59E0B;
+      color: #D97706;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 8px;
+      transform: rotate(-6deg);
+      margin-top: 8px;
+    }
+
+    .qr-container { background: #F9FAFB; padding: 12px; border-radius: 20px; margin-bottom: 12px; }
+    .qr-image { width: 170px; height: 170px; object-fit: contain; border-radius: 12px; background: white; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+    .unpaid-warning-box {
+      background: #FFF1F2; border: 1.5px dashed #FDA4AF; border-radius: 16px;
+      padding: 10px 12px; margin-bottom: 12px; text-align: left; font-size: 0.76rem; color: #881337; line-height: 1.45;
+    }
+    .unpaid-warning-box strong { display: block; color: #BE123C; font-size: 0.8rem; margin-bottom: 2px; }
+
     .ig-action-btn {
       width: 100%; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
       color: white; border: none; padding: 14px; border-radius: 18px; font-size: 0.95rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 15px rgba(220, 39, 67, 0.25);
+      transition: transform 0.15s;
     }
+    .ig-action-btn:active { transform: scale(0.96); }
     .tiny-hint { font-size: 0.72rem; color: #9CA3AF; margin-top: 8px; }
   </style>
 </head>
@@ -267,32 +398,45 @@
     </div>
   </div>
 
-  <!-- หน้า QR Code & แจ้งเตือนคนไม่สะดวกโอน -->
+  <!-- หน้าใบเสร็จสไตล์คาเฟ่ + QR Code + พลุกระดาษ -->
   <div id="payment-modal" class="modal">
     <div class="modal-content text-center">
       <span class="close-btn" onclick="closePayment()">&times;</span>
-      <div class="success-badge">✨ สั่งซื้อสำเร็จ! ✨</div>
-      <h3>สแกน QR Code เพื่อชำระเงิน</h3>
-      <p class="sub-qr">ร้าน <strong>@_kawkaijiaw</strong></p>
+      <div class="success-badge">🎉 สั่งซื้อสำเร็จแล้ว! 🎉</div>
+      
+      <!-- ใบเสร็จสไตล์คาเฟ่ -->
+      <div class="cafe-receipt">
+        <div class="receipt-header">
+          <div class="receipt-shop-name">🍳 @_KAWKAIJIAW CAFE 🍓</div>
+          <div class="receipt-meta" id="receipt-customer-meta">ลูกค้า: - | นัดรับ: -</div>
+        </div>
+        <div class="receipt-items-body" id="receipt-items-display">
+          <!-- รายการอาหารจะมาแสดงตรงนี้ -->
+        </div>
+        <div class="receipt-total-row">
+          <span>ยอดชำระทั้งหมด</span>
+          <span id="final-pay-text">0 บาท</span>
+        </div>
+        <div style="text-align: right;">
+          <span class="cute-stamp">FRESHLY MADE ✨</span>
+        </div>
+      </div>
 
       <div class="qr-container">
         <img src="https://i.ibb.co/PGQfd4NV/004999237122055-20261110-163116.jpg" alt="QR Code ชำระเงิน" class="qr-image">
-        <div class="pay-tag">ยอดโอน: <span id="final-pay-text">0</span> บาท</div>
+        <p style="font-size: 0.78rem; color: #6B7280; margin-top: 6px;">สแกน QR Code ด้านบนเพื่อโอนเงินได้เลยค่ะ</p>
       </div>
 
-      <!-- ข้อความแจ้งเตือนสำหรับคนที่ไม่สะดวกจ่ายโอน -->
       <div class="unpaid-warning-box">
         <strong>⚠️ สำหรับคนที่ไม่สะดวกจ่ายโอน (จองแบบยังไม่จ่ายเงิน):</strong>
         หากต้องการจองแบบไม่จ่ายเงิน <u>ต้องทักส่วนตัวมาบอกแม่ค้า</u> ก่อนนะคะ โดยทางร้านจะไม่รับประกันว่าจะได้อาหารหากมารับช้าหรือเกินเวลาช่วงพักเที่ยง ทางร้านอาจจะนำอาหารนั้นขายไปก่อน หากโชคดีอาจจะยังมีออเดอร์เหลือค่ะ 🙏
       </div>
 
-      <div class="receipt-box">
-        <label>📋 รายการสั่งซื้อ (คัดลอกส่งในแชท IG):</label>
-        <textarea id="order-receipt-text" readonly rows="5"></textarea>
-      </div>
+      <!-- ซ่อน textarea ไว้สำหรับคัดลอกข้อความบิลส่ง IG -->
+      <textarea id="order-receipt-text" style="position:absolute; left:-9999px;" readonly></textarea>
 
       <button class="ig-action-btn" onclick="copyAndGoIG()">📲 คัดลอกบิล & ทักแชท IG @_kawkaijiaw</button>
-      <p class="tiny-hint">*ระบบจะคัดลอกข้อความให้อัตโนมัติ กดวาง (Paste) ในแชท IG พร้อมแนบสลิป (หรือแจ้งจอง) ได้เลยค่ะ</p>
+      <p class="tiny-hint">*กดปุ่มด้านบนเพื่อคัดลอกใบเสร็จ แล้วกดวาง (Paste) ในแชท IG พร้อมแนบสลิปได้เลยค่ะ</p>
     </div>
   </div>
 
@@ -334,12 +478,29 @@
         const isDessert = item.category === "dessert";
         const isOutOfStock = item.stock <= 0;
 
+        // แถบวัดความคุ้มค่า เฉพาะเมนูข้าวไข่เจียวทรงเครื่อง (id: 2)
+        let valueMeterHTML = "";
+        if (item.id === 2) {
+          valueMeterHTML = `
+            <div id="value-meter-box" class="value-meter-box">
+              <div class="meter-header">
+                <span id="meter-text">💡 เลือกเครื่อง 2-3 อย่าง คิดเพิ่มแค่ +5 บาท!</span>
+                <span id="meter-count">0 อย่าง</span>
+              </div>
+              <div class="meter-track">
+                <div id="meter-fill" class="meter-fill"></div>
+              </div>
+            </div>
+          `;
+        }
+
         let toppingsHTML = "";
         if (item.toppings.length > 0) {
           const ruleText = isDessert 
             ? "เลือกใส่ขนมเพิ่ม (อย่างละ +5 บาท)" 
             : "เลือกใส่เครื่องเพิ่ม (เพิ่ม +5 บาท ทุกๆ 2-3 อย่าง)";
           toppingsHTML = `
+            ${valueMeterHTML}
             <span class="topping-section-label">${ruleText}</span>
             <div class="topping-grid">
               ${item.toppings.map(t => `
@@ -389,20 +550,51 @@
       const checked = document.querySelectorAll(`input[name="top-${item.id}"]:checked`);
       let unitPrice = item.basePrice;
       if (item.id === 2) {
-        // เพิ่ม +5 บาท ทุกๆ การเลือกเครื่อง 2-3 อย่าง (2-3 อย่าง +5฿, 4-5 อย่าง +10฿, 6-7 อย่าง +15฿ ...)
         const count = checked.length;
         const extraSets = count >= 2 ? Math.floor(count / 2) : 0;
         unitPrice += extraSets * 5;
       } else if (item.id === 3) {
-        // แคร็กเกอร์วิปครีม: อย่างละ +5 บาท
         unitPrice += checked.length * 5;
       }
       return unitPrice;
     }
 
+    // อัปเดตราคา + อัปเดตแถบวัดความคุ้มค่า
     function updateCardPrice(id) {
       const item = products.find(p => p.id === id);
       if (item.stock <= 0) return;
+
+      const checked = document.querySelectorAll(`input[name="top-${id}"]:checked`);
+      const count = checked.length;
+
+      // อัปเดตแถบวัดความคุ้มค่าสำหรับเมนูข้าวไข่เจียวทรงเครื่อง
+      if (id === 2) {
+        const meterBox = document.getElementById("value-meter-box");
+        const meterText = document.getElementById("meter-text");
+        const meterCount = document.getElementById("meter-count");
+        const meterFill = document.getElementById("meter-fill");
+
+        meterCount.innerText = `${count} อย่าง`;
+
+        if (count === 0) {
+          meterBox.classList.remove("super-worth");
+          meterText.innerText = "💡 เลือกเครื่อง 2-3 อย่าง คิดเพิ่มแค่ +5 บาท!";
+          meterFill.style.width = "10%";
+        } else if (count === 1) {
+          meterBox.classList.remove("super-worth");
+          meterText.innerText = "✨ เลือกอีก 1-2 อย่าง ก็คุ้มในเรท +5 บาทนะ!";
+          meterFill.style.width = "40%";
+        } else if (count % 2 === 0) {
+          meterBox.classList.add("super-worth");
+          meterText.innerText = `🔥 ปลดล็อกเซ็ตสุดคุ้ม! (เลือกเพิ่มได้อีก 1 อย่างฟรี!)`;
+          meterFill.style.width = "75%";
+        } else {
+          meterBox.classList.add("super-worth");
+          meterText.innerText = `🎉 คุ้มเต็มแม็กซ์! จุใจสุดๆ ไปเลย`;
+          meterFill.style.width = "100%";
+        }
+      }
+
       const unitPrice = calculateUnitPrice(item);
       const total = unitPrice * cardQuantities[id];
       document.getElementById(`add-btn-${id}`).innerText = `เพิ่มลงตะกร้า • ${total} ฿`;
@@ -481,6 +673,18 @@
       openCart();
     }
 
+    // ฟังก์ชันยิงพลุกระดาษพาสเทล
+    function fireCuteConfetti() {
+      if (typeof confetti === "function") {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#FFD13B', '#FF5D8F', '#34D399', '#60A5FA', '#FBBF24']
+        });
+      }
+    }
+
     function confirmOrder() {
       if (cart.length === 0) { alert("กรุณาเลือกเมนูอาหารก่อนยืนยันคำสั่งซื้อนะคะ"); return; }
       const cusName = document.getElementById("cus-name").value.trim();
@@ -494,19 +698,40 @@
 
       let grandTotal = 0;
       let billText = `🍳 ออเดอร์ร้าน @_kawkaijiaw\n👤 ชื่อ/ห้อง: ${cusName}\n⏰ นัดรับคาบ: ${cusPeriod}\n------------------------\n`;
+      
+      // สร้างรายการแสดงในใบเสร็จสไตล์คาเฟ่
+      const receiptItemsDiv = document.getElementById("receipt-items-display");
+      receiptItemsDiv.innerHTML = "";
+      document.getElementById("receipt-customer-meta").innerText = `ลูกค้า: ${cusName} | นัดรับ: ${cusPeriod}`;
+
       cart.forEach((c, i) => {
         grandTotal += c.totalPrice;
         const topStr = c.toppings.length > 0 ? ` [${c.toppings.join(", ")}]` : "";
         billText += `${i + 1}. ${c.name}${topStr} x${c.qty} = ${c.totalPrice}฿\n`;
-      });
-      billText += `------------------------\n`;
-      if (cusNote) billText += `📝 หมายเหตุ: ${cusNote}\n`;
-      billText += `💰 ยอดโอนทั้งหมด: ${grandTotal} บาท`;
 
-      document.getElementById("final-pay-text").innerText = grandTotal;
+        receiptItemsDiv.innerHTML += `
+          <div class="receipt-line">
+            <span><strong>${c.name}</strong> x${c.qty}<br><small style="color:#6B7280;">${topStr}</small></span>
+            <span><strong>${c.totalPrice}฿</strong></span>
+          </div>
+        `;
+      });
+
+      if (cusNote) {
+        billText += `📝 หมายเหตุ: ${cusNote}\n`;
+        receiptItemsDiv.innerHTML += `<div style="font-size:0.75rem; color:#B45309; margin-top:4px;">📝 หมายเหตุ: ${cusNote}</div>`;
+      }
+
+      billText += `------------------------\n💰 ยอดโอนทั้งหมด: ${grandTotal} บาท`;
+
+      document.getElementById("final-pay-text").innerText = `${grandTotal} บาท`;
       document.getElementById("order-receipt-text").value = billText;
+      
       closeCart();
       document.getElementById("payment-modal").style.display = "flex";
+      
+      // ยิงพลุกระดาษฉลองตอนสั่งซื้อสำเร็จ!
+      fireCuteConfetti();
     }
 
     function closePayment() {
@@ -520,7 +745,7 @@
       receiptBox.select();
       receiptBox.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(receiptBox.value);
-      alert("คัดลอกรายการสั่งซื้อเรียบร้อย! กดวาง (Paste) ในแชท IG @_kawkaijiaw พร้อมแนบสลิป (หรือแจ้งจอง) ได้เลยค่ะ");
+      alert("คัดลอกใบเสร็จเรียบร้อย! กดวาง (Paste) ในแชท IG @_kawkaijiaw พร้อมแนบสลิป (หรือแจ้งจอง) ได้เลยค่ะ");
       window.open(`https://ig.me/m/${SHOP_IG}`, "_blank");
     }
 
