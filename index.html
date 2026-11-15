@@ -254,7 +254,6 @@
 </head>
 <body>
 
-  <!-- แผ่น Canvas สำหรับยิงพลุอยู่หน้าสุด -->
   <canvas id="confetti-canvas"></canvas>
 
   <div class="app-wrapper">
@@ -385,7 +384,7 @@
       },
       {
         id: 2, category: "omelet", name: "ข้าวไข่เจียวทรงเครื่อง", basePrice: 25, priceLabel: "เริ่มต้น 25 บาท",
-        desc: "เลือกใส่เครื่องแน่นๆ ได้ตามใจชอบ (เพิ่ม +5 บาท ทุกๆ การใส่เครื่อง 2-3 อย่าง)",
+        desc: "เลือกใส่เครื่องแน่นๆ ได้ตามใจชอบ (เลือก 1-3 อย่าง +5 บาท)",
         img: "https://i.ibb.co/20CpH8vz/IMG-a2c334bd-ac6a-40c8-b018-15e3c32aecd3.jpg",
         toppings: ["หัวหอม", "ต้นหอม", "แครอท", "ไก่สับ", "มะเขือเทศ", "พริก", "หมูสับ", "ไส้กรอก", "โบโลน่า", "ปูอัด"],
         stock: 99
@@ -417,7 +416,7 @@
           valueMeterHTML = `
             <div id="value-meter-box" class="value-meter-box">
               <div class="meter-header">
-                <span id="meter-text">💡 เลือกเครื่อง 2-3 อย่าง คิดเพิ่มแค่ +5 บาท!</span>
+                <span id="meter-text">💡 เลือกเครื่อง 1-3 อย่าง คิดเพิ่ม +5 บาทเท่ากัน!</span>
                 <span id="meter-count">0 อย่าง</span>
               </div>
               <div class="meter-track">
@@ -431,7 +430,7 @@
         if (item.toppings.length > 0) {
           const ruleText = isDessert 
             ? "เลือกใส่ขนมเพิ่ม (อย่างละ +5 บาท)" 
-            : "เลือกใส่เครื่องเพิ่ม (เพิ่ม +5 บาท ทุกๆ 2-3 อย่าง)";
+            : "เลือกใส่เครื่องเพิ่ม (1-3 อย่าง +5 บาท / 4-6 อย่าง +10 บาท)";
           toppingsHTML = `
             ${valueMeterHTML}
             <span class="topping-section-label">${ruleText}</span>
@@ -483,10 +482,12 @@
       const checked = document.querySelectorAll(`input[name="top-${item.id}"]:checked`);
       let unitPrice = item.basePrice;
       if (item.id === 2) {
+        // เลือก 1-3 อย่าง +5 บาท, เลือก 4-6 อย่าง +10 บาท (ทุกๆ ชุด 1-3 อย่าง +5 บาท)
         const count = checked.length;
-        const extraSets = count >= 2 ? Math.floor(count / 2) : 0;
+        const extraSets = count > 0 ? Math.ceil(count / 3) : 0;
         unitPrice += extraSets * 5;
       } else if (item.id === 3) {
+        // แคร็กเกอร์วิปครีม: อย่างละ +5 บาท
         unitPrice += checked.length * 5;
       }
       return unitPrice;
@@ -509,20 +510,23 @@
 
         if (count === 0) {
           meterBox.classList.remove("super-worth");
-          meterText.innerText = "💡 เลือกเครื่อง 2-3 อย่าง คิดเพิ่มแค่ +5 บาท!";
+          meterText.innerText = "💡 เลือกเครื่อง 1-3 อย่าง คิดเพิ่ม +5 บาทเท่ากัน!";
           meterFill.style.width = "10%";
-        } else if (count === 1) {
-          meterBox.classList.remove("super-worth");
-          meterText.innerText = "✨ เลือกอีก 1-2 อย่าง ก็คุ้มในเรท +5 บาทนะ!";
-          meterFill.style.width = "40%";
-        } else if (count % 2 === 0) {
-          meterBox.classList.add("super-worth");
-          meterText.innerText = `🔥 ปลดล็อกเซ็ตสุดคุ้ม! (เลือกเพิ่มได้อีก 1 อย่างฟรี!)`;
-          meterFill.style.width = "75%";
         } else {
-          meterBox.classList.add("super-worth");
-          meterText.innerText = `🎉 คุ้มเต็มแม็กซ์! จุใจสุดๆ ไปเลย`;
-          meterFill.style.width = "100%";
+          const remainder = count % 3;
+          if (remainder === 1) {
+            meterBox.classList.remove("super-worth");
+            meterText.innerText = "✨ เลือกเพิ่มได้อีก 2 อย่างฟรี! ในเรท +5 บาทนะ";
+            meterFill.style.width = "35%";
+          } else if (remainder === 2) {
+            meterBox.classList.add("super-worth");
+            meterText.innerText = "🔥 เลือกเพิ่มได้อีก 1 อย่างฟรี! ก็ยัง +5 บาทเท่าเดิม";
+            meterFill.style.width = "70%";
+          } else {
+            meterBox.classList.add("super-worth");
+            meterText.innerText = "🎉 คุ้มเต็มแม็กซ์ 3/3 อย่าง! จุใจสุดๆ ไปเลย";
+            meterFill.style.width = "100%";
+          }
         }
       }
 
@@ -604,14 +608,12 @@
       openCart();
     }
 
-    // ยิงพลุกระดาษลงบนแผ่น Canvas ชั้นบนสุด (z-index: 99999) ทั้งซ้าย-ขวา-กลาง!
     function fireCuteConfetti() {
       const canvas = document.getElementById("confetti-canvas");
       if (typeof confetti === "function" && canvas) {
         const myConfetti = confetti.create(canvas, { resize: true, useWorker: true });
         const cuteColors = ['#FFD13B', '#FF5D8F', '#34D399', '#60A5FA', '#FBBF24', '#F472B6'];
 
-        // ยิงพุ่งตรงกลาง
         myConfetti({
           particleCount: 90,
           spread: 75,
@@ -619,7 +621,6 @@
           colors: cuteColors
         });
 
-        // ยิงเฉียงจากซ้ายและขวาเข้ามาตรงกลาง
         setTimeout(() => {
           myConfetti({
             particleCount: 50,
@@ -683,7 +684,6 @@
       closeCart();
       document.getElementById("payment-modal").style.display = "flex";
       
-      // ยิงพลุทับหน้าบิลทันที!
       fireCuteConfetti();
     }
 
